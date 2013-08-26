@@ -44,13 +44,15 @@
     return sharedInstance;
 }
 
-//==============================================================================
-- (id) init
+- (id)init
 {
-    if( (self = [super init]) )
-    {
+    self = [super init];
+    
+    if (self) {
+        
         [self configure];
     }
+    
     return self;
 }
 
@@ -71,11 +73,21 @@
     NSDictionary* dictConfig = [NSDictionary dictionaryWithContentsOfFile:filePath];
     NSAssert(dictConfig, @"Need config file!");
     NSLog(@"config %@", dictConfig);
-
+    
     facebook = [(DXSEFacebook*)[self initializeModuleWithKey:@"DXSEFacebook" fromDictionary:dictConfig] retain];
     twitter = [(DXSETwitter*)[self initializeModuleWithKey:@"DXSETwitter" fromDictionary:dictConfig] retain];
     fourSquare = [(DXSE4Square*)[self initializeModuleWithKey:@"DXSE4Square" fromDictionary:dictConfig] retain];
     instagram = [(DXSEInstagram*)[self initializeModuleWithKey:@"DXSEInstagram" fromDictionary:dictConfig] retain];
+}
+
+- (void) configureWithDictionary:(NSDictionary *)config
+{
+    NSParameterAssert(config);
+    
+    facebook = [(DXSEFacebook*)[self initializeModuleWithKey:@"DXSEFacebook" fromDictionary:config] retain];
+    twitter = [(DXSETwitter*)[self initializeModuleWithKey:@"DXSETwitter" fromDictionary:config] retain];
+    fourSquare = [(DXSE4Square*)[self initializeModuleWithKey:@"DXSE4Square" fromDictionary:config] retain];
+    instagram = [(DXSEInstagram*)[self initializeModuleWithKey:@"DXSEInstagram" fromDictionary:config] retain];
 }
 
 //==============================================================================
